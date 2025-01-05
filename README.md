@@ -3,10 +3,9 @@
 ### Installation
 
 ```sh
-uv add indigo-logger
-uv pip install indigo-logger
-pip install indigo-logger
+uv add git+https://github.com/iiPythonx/il
 pip install git+https://github.com/iiPythonx/il
+# ...
 ```
 
 ### Importing
