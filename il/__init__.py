@@ -1,19 +1,30 @@
 # Copyright (c) 2025 iiPython
 
 # Modules
+import atexit
 from pathlib import Path
 from typing import Optional
+from io import TextIOWrapper
 
 # Version
-LOGFILE: Optional[Path] = None
-__version__ = "0.2.0"
+__version__ = "0.2.1"
+
+# Handle the log file
+LOG_FILE: Optional[TextIOWrapper] = None
+
+def cleanup_log_file() -> None:
+    if LOG_FILE is not None:
+        LOG_FILE.close()
+
+def set_log_file(file: Path) -> None:
+    globals()["LOG_FILE"] = file.open("a")
+    atexit.register(cleanup_log_file)
 
 # Print, but with file support
 def create_log(line: str) -> None:
     print(line)
-    if LOGFILE is not None:
-        with LOGFILE.open("a") as fh:
-            fh.write(line + "\n")
+    if LOG_FILE is not None:
+        LOG_FILE.write(line + "\n")
 
 # Begin methods
 @staticmethod
