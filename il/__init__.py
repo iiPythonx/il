@@ -1,25 +1,34 @@
 # Copyright (c) 2025 iiPython
 
 # Modules
+from pathlib import Path
 from typing import Optional
 
 # Version
-__version__ = "0.1.0"
+LOGFILE: Optional[Path] = None
+__version__ = "0.2.0"
+
+# Print, but with file support
+def create_log(line: str) -> None:
+    print(line)
+    if LOGFILE is not None:
+        with LOGFILE.open("a") as fh:
+            fh.write(line + "\n")
 
 # Begin methods
 @staticmethod
 def cprint(text: str, color: int) -> None:
     """Generate a line of colored text; yes, that's all it does."""
-    print(f"\033[{color}m{text}")
+    create_log(f"\033[{color}m{text}")
 
 @staticmethod
 def box(size: int, left: str, right: str, color: int = 34) -> None:
     """Generate a box (header) of the given size, text, and color.
     Ensure you include the sides (2 characters) in your size, as they will be subtracted."""
     size -= 2  # Account for sides
-    print(f"\033[{color}m┌{'─' * size}┐")
-    print(f"│ {left}{' ' * (size - 2 - len(left) - len(right))}{right} │")
-    print(f"└{'─' * size}┘")
+    create_log(f"\033[{color}m┌{'─' * size}┐")
+    create_log(f"│ {left}{' ' * (size - 2 - len(left) - len(right))}{right} │")
+    create_log(f"└{'─' * size}┘")
 
 @staticmethod
 def rule(size: int, color: int = 34) -> None:
@@ -45,8 +54,8 @@ def request(
     total_time = time_taken_seconds * 1000
     spacing = " " * (len(path) - len(summary))  # This should have 2 subtracted, but for now it's tab aligned
 
-    print(f"\033[33m\u26A1 {verb} {path}\t[{remote_ip}]")
+    create_log(f"\033[33m\u26A1 {verb} {path}\t[{remote_ip}]")
     if detail_text is not None:
-        print(f"\033[90m   │   \033[{summary_color}m{detail_text}")
+        create_log(f"\033[90m   │   \033[{summary_color}m{detail_text}")
 
-    print(f"\033[90m   └→  \033[{summary_color}m{summary}{spacing}\t\033[33m[{total_time:.1f}ms]")
+    create_log(f"\033[90m   └→  \033[{summary_color}m{summary}{spacing}\t\033[33m[{total_time:.1f}ms]")
