@@ -7,7 +7,7 @@ from typing import Optional
 from io import TextIOWrapper
 
 # Version
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 
 # Handle the log file
 LOG_FILE: Optional[TextIOWrapper] = None
@@ -25,6 +25,7 @@ def create_log(line: str) -> None:
     print(line)
     if LOG_FILE is not None:
         LOG_FILE.write(line + "\n")
+        LOG_FILE.flush()
 
 # Begin methods
 @staticmethod
