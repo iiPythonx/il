@@ -7,7 +7,7 @@ from typing import Optional
 from io import TextIOWrapper
 
 # Version
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 
 # Handle the log file
 LOG_FILE: Optional[TextIOWrapper] = None
@@ -28,12 +28,10 @@ def create_log(line: str) -> None:
         LOG_FILE.flush()
 
 # Begin methods
-@staticmethod
 def cprint(text: str, color: int) -> None:
     """Generate a line of colored text; yes, that's all it does."""
     create_log(f"\033[{color}m{text}\033[0m")
 
-@staticmethod
 def box(size: int, left: str, right: str, color: int = 34) -> None:
     """Generate a box (header) of the given size, text, and color.
     Ensure you include the sides (2 characters) in your size, as they will be subtracted."""
@@ -42,17 +40,14 @@ def box(size: int, left: str, right: str, color: int = 34) -> None:
     create_log(f"│ {left}{' ' * (size - 2 - len(left) - len(right))}{right} │")
     create_log(f"└{'─' * size}┘\033[0m")
 
-@staticmethod
 def rule(size: int, color: int = 34) -> None:
     """Generate a horizontal rule given size and color."""
     cprint("─" * size, color)
 
-@staticmethod
 def indent(text: str, color: int = 34, indent: int = 2) -> None:
     """Generate a line of indented text, meant to sit between horizontal rules."""
     cprint(f"{' ' * indent}{text}", color)
 
-@staticmethod
 def request(
     path: str,
     remote_ip: str,
